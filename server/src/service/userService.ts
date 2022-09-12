@@ -1,3 +1,5 @@
+import bcrypt from "bcrypt";
+import { v4 } from "uuid";
 import { pool } from "../db";
 
 class UserService {
@@ -13,9 +15,11 @@ class UserService {
       );
     }
 
+    const hashPassword = await bcrypt.hash(password, 3);
+
     const user = await pool.query(
-      `INSERT INTO users (email, password) VALUES ($1, $2)`,
-      [email, password]
+      `INSERT INTO users (email, password, activationLink) VALUES ($1, $2)`,
+      [email, hashPassword]
     );
 
     return user;
