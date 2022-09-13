@@ -2,6 +2,8 @@ import bcrypt from "bcrypt";
 import { v4 } from "uuid";
 import { pool } from "../db";
 import { mailService } from "./mailService";
+import { tokenService } from "./tokenService";
+import { UserDto } from "../dtos/userDto";
 
 class UserService {
   async registration(email: string, password: string) {
@@ -20,13 +22,20 @@ class UserService {
     const activationLink = v4();
 
     const user = await pool.query(
-      `INSERT INTO users (email, password, activationLink) VALUES ($1, $2)`,
-      [email, hashPassword, activationLink]
+      `INSERT INTO users (email, password, "isActivated", "activationLink") VALUES ($1, $2, $3, $4) RETURNING *`,
+      [email, hashPassword, 0, activationLink]
     );
 
     await mailService.sendActivationMail(email, activationLink);
 
-    return user;
+    const userDto = new UserDto(user.rows[0]);
+    const tokens = tokenService.generateToken({ ...userDto });
+    await tokenService.saveToken(userDto.id, tokens.refreshToken);
+
+    return {
+      ...tokens,
+      user: userDto,
+    };
   }
 }
 

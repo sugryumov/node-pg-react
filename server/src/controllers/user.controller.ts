@@ -1,17 +1,21 @@
 import { Request, Response } from "express";
+import { pool } from "../db";
 import { userService } from "../service/userService";
 
 class UserController {
   async registration(req: Request, res: Response) {
     try {
       const { email, password } = req.body;
-
       const userData = await userService.registration(email, password);
 
+      res.cookie("refreshToken", userData.refreshToken, {
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+      });
+
       return res.json(userData);
-    } catch (err: any) {
-      res.status(400);
-      res.json({ message: err?.message });
+    } catch ({ message }: unknown) {
+      res.status(400).send({ message });
     }
   }
 
