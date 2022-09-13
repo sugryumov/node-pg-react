@@ -26,7 +26,10 @@ class UserService {
       [email, hashPassword, 0, activationLink]
     );
 
-    await mailService.sendActivationMail(email, activationLink);
+    await mailService.sendActivationMail(
+      email,
+      `${process.env.API_URL}/api/activate/${activationLink}`
+    );
 
     const userDto = new UserDto(user.rows[0]);
     const tokens = tokenService.generateToken({ ...userDto });
@@ -36,6 +39,22 @@ class UserService {
       ...tokens,
       user: userDto,
     };
+  }
+
+  async activate(activationLink: string) {
+    const candidate = await pool.query(
+      'SELECT "activationLink" FROM users WHERE "activationLink" = $1',
+      [activationLink]
+    );
+
+    if (candidate.rowCount === 0) {
+      throw new Error("Некорректная ссылка активации");
+    }
+
+    await pool.query(
+      'UPDATE users SET "isActivated" = $1 WHERE "activationLink" = $2',
+      [true, activationLink]
+    );
   }
 }
 
