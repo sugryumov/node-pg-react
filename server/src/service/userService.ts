@@ -4,6 +4,7 @@ import { pool } from "../db";
 import { mailService } from "./mailService";
 import { tokenService } from "./tokenService";
 import { UserDto } from "../dtos/userDto";
+import { ApiError } from "../exceptions/apiError";
 
 class UserService {
   async registration(email: string, password: string) {
@@ -13,7 +14,7 @@ class UserService {
     );
 
     if (candidate.rowCount !== 0) {
-      throw new Error(
+      throw ApiError.BadRequest(
         `Пользователь с почтовым адресом ${email} уже существует`
       );
     }
@@ -48,7 +49,7 @@ class UserService {
     );
 
     if (candidate.rowCount === 0) {
-      throw new Error("Некорректная ссылка активации");
+      throw ApiError.BadRequest("Некорректная ссылка активации");
     }
 
     await pool.query(
