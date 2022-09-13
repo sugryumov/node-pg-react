@@ -45,6 +45,15 @@ class TokenService {
 
     return token;
   }
+
+  async removeToken(refreshToken: string) {
+    const tokenData = await pool.query(
+      `DELETE FROM tokens WHERE "refreshToken" = $1`,
+      [refreshToken]
+    );
+
+    return tokenData;
+  }
 }
 
 export const tokenService = new TokenService();
