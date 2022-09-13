@@ -11,6 +11,8 @@ COPY ["package.json", "package-lock.json", "tsconfig.json", ".env", "./"]
 # Copies everything in the src directory to WORKDIR/src
 COPY ./src ./src
 
+RUN npm config set cache /tmp --global
+
 # Installs all packages
 RUN npm install
 
