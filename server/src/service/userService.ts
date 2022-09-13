@@ -57,6 +57,33 @@ class UserService {
       [true, activationLink]
     );
   }
+
+  async login(email: string, password: string) {
+    const user = await pool.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
+
+    if (user.rowCount === 0) {
+      throw ApiError.BadRequest(
+        `Пользователь с почтовым адресом ${email} не найден`
+      );
+    }
+
+    const isPassEquals = await bcrypt.compare(password, user.rows[0].password);
+
+    if (!isPassEquals) {
+      throw ApiError.BadRequest("Неверный пароль");
+    }
+
+    const userDto = new UserDto(user.rows[0]);
+    const tokens = tokenService.generateToken({ ...userDto });
+    await tokenService.saveToken(userDto.id, tokens.refreshToken);
+
+    return {
+      ...tokens,
+      user: userDto,
+    };
+  }
 }
 
 export const userService = new UserService();
