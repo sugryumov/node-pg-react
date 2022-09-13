@@ -1,10 +1,20 @@
 import { Request, Response, NextFunction } from "express";
+import { validationResult } from "express-validator";
 import { pool } from "../db";
+import { ApiError } from "../exceptions/apiError";
 import { userService } from "../service/userService";
 
 class UserController {
   async registration(req: Request, res: Response, next: NextFunction) {
     try {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+        return next(
+          ApiError.BadRequest("Ошибка при валидации", errors.array())
+        );
+      }
+
       const { email, password } = req.body;
       const userData = await userService.registration(email, password);
 
