@@ -117,6 +117,12 @@ class UserService {
       user: userDto,
     };
   }
+
+  async getAllUsers() {
+    const users = await pool.query("SELECT * FROM users");
+
+    return users.rows;
+  }
 }
 
 export const userService = new UserService();

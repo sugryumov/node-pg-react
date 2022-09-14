@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import { validationResult } from "express-validator";
-import { pool } from "../db";
 import { ApiError } from "../exceptions/apiError";
 import { userService } from "../service/userService";
 
@@ -86,17 +85,9 @@ class UserController {
 
   async getUsers(req: Request, res: Response, next: NextFunction) {
     try {
-      const results = await pool
-        .query("SELECT * FROM users")
-        .then((payload) => {
-          return payload.rows;
-        })
-        .catch(() => {
-          throw new Error("Query failed");
-        });
-      res.setHeader("Content-Type", "application/json");
-      res.status(200);
-      res.send(JSON.stringify(results));
+      const users = await userService.getAllUsers();
+
+      return res.json(users);
     } catch (err) {
       next(err);
     }
