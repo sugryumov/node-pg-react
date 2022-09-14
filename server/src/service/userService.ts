@@ -5,6 +5,7 @@ import { mailService } from "./mailService";
 import { tokenService } from "./tokenService";
 import { UserDto } from "../dtos/userDto";
 import { ApiError } from "../exceptions/apiError";
+import { IUser } from "../models/userModel";
 
 class UserService {
   async registration(email: string, password: string) {
@@ -89,6 +90,32 @@ class UserService {
     const token = await tokenService.removeToken(refreshToken);
 
     return token;
+  }
+
+  async refresh(refreshToken: string) {
+    if (!refreshToken) {
+      throw ApiError.UnauthorizedError();
+    }
+
+    const userData = tokenService.validateRefreshToken(refreshToken) as IUser;
+    const tokenFromDb = await tokenService.findToken(refreshToken);
+
+    if (!userData || !tokenFromDb) {
+      throw ApiError.UnauthorizedError();
+    }
+
+    const user = await pool.query("SELECT * FROM users WHERE id = $1", [
+      userData?.id,
+    ]);
+
+    const userDto = new UserDto(user.rows[0]);
+    const tokens = tokenService.generateToken({ ...userDto });
+    await tokenService.saveToken(userDto.id, tokens.refreshToken);
+
+    return {
+      ...tokens,
+      user: userDto,
+    };
   }
 }
 
