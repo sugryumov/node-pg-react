@@ -1,20 +1,16 @@
 import bcrypt from "bcrypt";
 import { v4 } from "uuid";
-import { pool } from "../db";
 import { mailService } from "./mailService";
 import { tokenService } from "./tokenService";
 import { UserDto } from "../dtos/userDto";
 import { ApiError } from "../exceptions/apiError";
-import { IUser } from "../models/userModel";
+import { UserModel } from "../models/userModel";
 
 class UserService {
   async registration(email: string, password: string) {
-    const candidate = await pool.query(
-      "SELECT email FROM users WHERE email = $1",
-      [email]
-    );
+    const candidate = await UserModel.findOne({ where: { email } });
 
-    if (candidate.rowCount !== 0) {
+    if (candidate) {
       throw ApiError.BadRequest(
         `Пользователь с почтовым адресом ${email} уже существует`
       );
@@ -23,17 +19,19 @@ class UserService {
     const hashPassword = await bcrypt.hash(password, 3);
     const activationLink = v4();
 
-    const user = await pool.query(
-      `INSERT INTO users (email, password, "isActivated", "activationLink") VALUES ($1, $2, $3, $4) RETURNING *`,
-      [email, hashPassword, 0, activationLink]
-    );
+    const user = await UserModel.create({
+      email,
+      password: hashPassword,
+      activationLink,
+    });
 
     await mailService.sendActivationMail(
       email,
       `${process.env.API_URL}/api/activate/${activationLink}`
     );
 
-    const userDto = new UserDto(user.rows[0]);
+    const userDto = new UserDto(user.toJSON());
+
     const tokens = tokenService.generateToken({ ...userDto });
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
@@ -44,39 +42,33 @@ class UserService {
   }
 
   async activate(activationLink: string) {
-    const candidate = await pool.query(
-      'SELECT "activationLink" FROM users WHERE "activationLink" = $1',
-      [activationLink]
-    );
+    const user = await UserModel.findOne({ where: { activationLink } });
 
-    if (candidate.rowCount === 0) {
+    if (!user) {
       throw ApiError.BadRequest("Некорректная ссылка активации");
     }
 
-    await pool.query(
-      'UPDATE users SET "isActivated" = $1 WHERE "activationLink" = $2',
-      [true, activationLink]
-    );
+    user.isActivated = true;
+
+    await user.save();
   }
 
   async login(email: string, password: string) {
-    const user = await pool.query("SELECT * FROM users WHERE email = $1", [
-      email,
-    ]);
+    const user = await UserModel.findOne({ where: { email } });
 
-    if (user.rowCount === 0) {
+    if (!user) {
       throw ApiError.BadRequest(
         `Пользователь с почтовым адресом ${email} не найден`
       );
     }
 
-    const isPassEquals = await bcrypt.compare(password, user.rows[0].password);
+    const isPassEquals = await bcrypt.compare(password, user.toJSON().password);
 
     if (!isPassEquals) {
       throw ApiError.BadRequest("Неверный пароль");
     }
 
-    const userDto = new UserDto(user.rows[0]);
+    const userDto = new UserDto(user.toJSON());
     const tokens = tokenService.generateToken({ ...userDto });
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
@@ -97,18 +89,16 @@ class UserService {
       throw ApiError.UnauthorizedError();
     }
 
-    const userData = tokenService.validateRefreshToken(refreshToken) as IUser;
+    const userData: any = tokenService.validateRefreshToken(refreshToken);
     const tokenFromDb = await tokenService.findToken(refreshToken);
 
     if (!userData || !tokenFromDb) {
       throw ApiError.UnauthorizedError();
     }
 
-    const user = await pool.query("SELECT * FROM users WHERE id = $1", [
-      userData?.id,
-    ]);
+    const user = await UserModel.findOne({ where: { id: userData?.id } });
 
-    const userDto = new UserDto(user.rows[0]);
+    const userDto = new UserDto(user?.toJSON());
     const tokens = tokenService.generateToken({ ...userDto });
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
@@ -119,9 +109,9 @@ class UserService {
   }
 
   async getAllUsers() {
-    const users = await pool.query("SELECT * FROM users");
+    const users = await UserModel.findAll();
 
-    return users.rows;
+    return users;
   }
 }
 

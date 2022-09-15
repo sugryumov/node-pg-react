@@ -1,9 +1,8 @@
 import jwt from "jsonwebtoken";
-import { pool } from "../db";
-import { IUserDto } from "../models/userModel";
+import { TokenModel } from "../models/tokenModel";
 
 class TokenService {
-  generateToken(payload: IUserDto) {
+  generateToken(payload: any) {
     const accessToken = jwt.sign(
       payload,
       process.env.JWT_ACCESS_SECRET || "access",
@@ -47,39 +46,31 @@ class TokenService {
   }
 
   async saveToken(userId: string, refreshToken: string) {
-    const tokenData = await pool.query("SELECT id FROM users WHERE id = $1", [
-      userId,
-    ]);
+    const tokenData = await TokenModel.findOne({
+      where: { user: userId },
+    });
 
-    if (tokenData.rowCount !== 0) {
-      await pool.query('UPDATE tokens SET "refreshToken" = $1 WHERE id = $2', [
-        refreshToken,
-        userId,
-      ]);
+    if (tokenData) {
+      tokenData.refreshToken = refreshToken;
+      return tokenData.save();
     }
 
-    const token = await pool.query(
-      `INSERT INTO tokens (id, "refreshToken") VALUES ($1, $2)`,
-      [userId, refreshToken]
-    );
+    const token = await TokenModel.create({
+      user: userId,
+      refreshToken,
+    });
 
     return token;
   }
 
   async removeToken(refreshToken: string) {
-    const tokenData = await pool.query(
-      `DELETE FROM tokens WHERE "refreshToken" = $1`,
-      [refreshToken]
-    );
+    const tokenData = TokenModel.destroy({ where: { refreshToken } });
 
     return tokenData;
   }
 
   async findToken(refreshToken: string) {
-    const tokenData = await pool.query(
-      `SELECT "refreshToken" FROM tokens WHERE "refreshToken" = $1`,
-      [refreshToken]
-    );
+    const tokenData = await TokenModel.findOne({ where: { refreshToken } });
 
     return tokenData;
   }

@@ -1,11 +1,9 @@
-import { IUser } from "../models/userModel";
-
 export class UserDto {
   id;
   email;
   isActivated;
 
-  constructor(model: IUser) {
+  constructor(model: any) {
     this.id = model.id;
     this.email = model.email;
     this.isActivated = model.isActivated;
