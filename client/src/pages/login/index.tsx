@@ -1,19 +1,17 @@
 import { FC, useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import { useActions } from "../../hooks/useActions";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
-import {
-  useLoginMutation,
-  useLogoutMutation,
-} from "../../services/authService";
+import { useLoginMutation } from "../../services/authService";
 
 export const Login: FC = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const { setCredentials } = useActions();
+  const { isAuth } = useTypedSelector((state) => state.authReducer);
 
   const [fetchLogin, { data, error, isError, isSuccess }] = useLoginMutation();
 
-  const { setCredentials } = useActions();
-  const { isAuth, profile } = useTypedSelector((state) => state.authReducer);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   useEffect(() => {
     if (isSuccess) {
@@ -55,5 +53,5 @@ export const Login: FC = () => {
     );
   }
 
-  return <div>Пользователь с email {profile.email} авторизован</div>;
+  return <Navigate to="/" />;
 };

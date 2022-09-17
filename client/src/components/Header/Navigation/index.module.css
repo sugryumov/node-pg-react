@@ -1,0 +1,11 @@
+.navigation {
+  display: flex;
+}
+
+.item:not(:last-child) {
+  margin-right: 15px;
+}
+
+.linkActive {
+  color: crimson;
+}

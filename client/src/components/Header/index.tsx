@@ -1,52 +1,32 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { PUBLIC_ROUTES } from "../../constants/routes";
 import { Logout } from "./Logout";
-
-const defaultMenu = [
-  {
-    id: 1,
-    path: "/login",
-    name: "login",
-  },
-  {
-    id: 2,
-    path: "/registration",
-    name: "registration",
-  },
-];
-
-const authMenu = [
-  {
-    id: 1,
-    path: "/users",
-    name: "users",
-  },
-];
+import { Navigation } from "./Navigation";
+import { Authorization } from "./Authorization";
+import styles from "./index.module.css";
 
 export const Header: FC = () => {
   const { isAuth } = useTypedSelector((state) => state.authReducer);
 
-  const renderMenu = (items: any) => {
-    return items.map((item: any) => {
-      return (
-        <Link key={item.id} to={item.path} className="menu__item">
-          {item.name}
-        </Link>
-      );
-    });
-  };
-
   return (
-    <nav>
+    <header className={styles.header}>
+      <div className={styles.logo}>
+        <Link to={PUBLIC_ROUTES.HOME.PATH}>English exercises</Link>
+      </div>
+
       {isAuth ? (
         <>
-          {renderMenu(authMenu)}
+          <Navigation />
           <Logout />
         </>
       ) : (
-        renderMenu(defaultMenu)
+        <>
+          <div />
+          <Authorization />
+        </>
       )}
-    </nav>
+    </header>
   );
 };

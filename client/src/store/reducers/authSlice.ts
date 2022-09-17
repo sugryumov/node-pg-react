@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { IUser } from "../../models/IUser";
 
 const initialState: { isAuth: boolean; profile: IUser } = {
-  isAuth: false,
+  isAuth: Boolean(localStorage.getItem("token")),
   profile: {
     id: null,
     email: null,
@@ -20,10 +20,9 @@ const authSlice = createSlice({
       state.profile = payload.user;
     },
 
-    logout: () => {
-      localStorage.removeItem("token");
-
-      return initialState;
+    logout: (state) => {
+      state.isAuth = Boolean(localStorage.removeItem("token"));
+      state.profile = initialState.profile;
     },
   },
 });

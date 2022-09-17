@@ -1,11 +1,20 @@
-import React, { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useRegistrationMutation } from "../../services/authService";
 
 export const Registration: FC = () => {
+  const navigation = useNavigate();
+
+  const [fetchRegistration, { isSuccess }] = useRegistrationMutation();
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const [fetchRegistration] = useRegistrationMutation();
+  useEffect(() => {
+    if (isSuccess) {
+      navigation("/login");
+    }
+  }, [isSuccess]);
 
   const handleRegistration = () => {
     fetchRegistration({ email, password });

@@ -1,13 +1,22 @@
 import { FC } from "react";
-import { Route, Routes } from "react-router-dom";
-import { Login } from "../../pages/login";
-import { Registration } from "../../pages/registration";
-import { Users } from "../../pages/users";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { PrivateRoute } from "./PrivateRoute";
+import { PRIVATE_ROUTES, PUBLIC_ROUTES } from "../../constants/routes";
 
 export const AppRoutes: FC = () => (
   <Routes>
-    <Route path="/users" element={<Users />} />
-    <Route path="/login" element={<Login />} />
-    <Route path="/registration" element={<Registration />} />
+    {Object.values(PUBLIC_ROUTES).map(({ PATH, COMPONENT }) => (
+      <Route key={PATH} path={PATH} element={COMPONENT} />
+    ))}
+
+    {Object.values(PRIVATE_ROUTES).map(({ PATH, COMPONENT }) => (
+      <Route
+        key={PATH}
+        path={PATH}
+        element={<PrivateRoute component={COMPONENT} />}
+      />
+    ))}
+
+    <Route path="*" element={<Navigate to="/not-found" />} />
   </Routes>
 );
