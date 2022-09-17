@@ -22,6 +22,7 @@ services:
       - POSTGRES_DB=${DB_NAME}
 
   # PostgreSQL pgAdmin panel accessible at http://localhost:16543/
+  # docker-compose rm -s pgadmin - if update default email
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
