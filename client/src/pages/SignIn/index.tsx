@@ -2,13 +2,14 @@ import { FC, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useActions } from "../../hooks/useActions";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { useLoginMutation } from "../../services/authService";
+import { useSignInMutation } from "../../services/authService";
 
-export const Login: FC = () => {
+export const SignIn: FC = () => {
   const { setCredentials } = useActions();
   const { isAuth } = useTypedSelector((state) => state.authReducer);
 
-  const [fetchLogin, { data, error, isError, isSuccess }] = useLoginMutation();
+  const [fetchSignIn, { data, error, isError, isSuccess }] =
+    useSignInMutation();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -27,8 +28,8 @@ export const Login: FC = () => {
     }
   }, [isError]);
 
-  const handleLogin = () => {
-    fetchLogin({ email, password });
+  const handleSignIn = () => {
+    fetchSignIn({ email, password });
   };
 
   if (!isAuth) {
@@ -48,7 +49,7 @@ export const Login: FC = () => {
           placeholder="password"
         />
 
-        <button onClick={handleLogin}>Login</button>
+        <button onClick={handleSignIn}>Sign In</button>
       </>
     );
   }

@@ -1,8 +1,8 @@
 import { IRoutes } from "../models/IRoute";
 import { Home } from "../pages/home";
-import { Login } from "../pages/login";
+import { SignIn } from "../pages/SignIn";
 import { NotFound } from "../pages/notFound";
-import { Registration } from "../pages/registration";
+import { SignUp } from "../pages/SignUp";
 import { Users } from "../pages/users";
 
 export const PUBLIC_ROUTES: IRoutes = {
@@ -11,15 +11,15 @@ export const PUBLIC_ROUTES: IRoutes = {
     NAME: "HOME",
     COMPONENT: <Home />,
   },
-  LOGIN: {
-    PATH: "/login",
-    NAME: "LOGIN",
-    COMPONENT: <Login />,
+  SIGN_IN: {
+    PATH: "/sign-in",
+    NAME: "SIGN IN",
+    COMPONENT: <SignIn />,
   },
-  REGISTRATION: {
-    PATH: "/registration",
-    NAME: "REGISTRATION",
-    COMPONENT: <Registration />,
+  SIGN_UP: {
+    PATH: "/sign-up",
+    NAME: "SIGN UP",
+    COMPONENT: <SignUp />,
   },
 
   NOT_FOUND: {

@@ -9,7 +9,7 @@ export const authApi = createApi({
     baseUrl: "http://localhost:9000/api/",
   }),
   endpoints: (builder) => ({
-    login: builder.mutation<IAuthResponse, IAuthRequest>({
+    signIn: builder.mutation<IAuthResponse, IAuthRequest>({
       query: (params) => ({
         url: "/login",
         method: "POST",
@@ -17,7 +17,7 @@ export const authApi = createApi({
       }),
     }),
 
-    registration: builder.mutation<IAuthResponse, IAuthRequest>({
+    signUp: builder.mutation<IAuthResponse, IAuthRequest>({
       query: (params) => ({
         url: "/registration",
         method: "POST",
@@ -41,8 +41,8 @@ export const authApi = createApi({
 });
 
 export const {
-  useLoginMutation,
-  useRegistrationMutation,
+  useSignInMutation,
+  useSignUpMutation,
   useLogoutMutation,
   useCheckAuthQuery,
 } = authApi;

@@ -1,23 +1,24 @@
 import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRegistrationMutation } from "../../services/authService";
+import { PUBLIC_ROUTES } from "../../constants/routes";
+import { useSignUpMutation } from "../../services/authService";
 
-export const Registration: FC = () => {
+export const SignUp: FC = () => {
   const navigation = useNavigate();
 
-  const [fetchRegistration, { isSuccess }] = useRegistrationMutation();
+  const [fetchSignUp, { isSuccess }] = useSignUpMutation();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   useEffect(() => {
     if (isSuccess) {
-      navigation("/login");
+      navigation(PUBLIC_ROUTES.SIGN_IN.PATH);
     }
   }, [isSuccess]);
 
-  const handleRegistration = () => {
-    fetchRegistration({ email, password });
+  const handleSignUp = () => {
+    fetchSignUp({ email, password });
   };
 
   return (
@@ -36,7 +37,7 @@ export const Registration: FC = () => {
         placeholder="password"
       />
 
-      <button onClick={handleRegistration}>Registration</button>
+      <button onClick={handleSignUp}>Sign Up</button>
     </div>
   );
 };
