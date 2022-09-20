@@ -1,9 +1,12 @@
 import { FC, useEffect } from "react";
+import { Layout } from "antd";
 import { useActions } from "../../hooks/useActions";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { useCheckAuthQuery } from "../../services/authService";
 import { AppRoutes } from "../AppRoutes";
-import { Header } from "../Header";
+import { AppHeader } from "../AppHeader";
+import { AppFooter } from "../AppFooter";
+import styles from "./index.module.css";
 
 export const App: FC = () => {
   const { setCredentials } = useActions();
@@ -27,9 +30,12 @@ export const App: FC = () => {
   }
 
   return (
-    <>
-      <Header />
-      <AppRoutes />
-    </>
+    <Layout>
+      <AppHeader />
+      <div className={styles.app}>
+        <AppRoutes />
+      </div>
+      <AppFooter />
+    </Layout>
   );
 };

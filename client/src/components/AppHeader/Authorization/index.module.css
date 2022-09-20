@@ -1,0 +1,7 @@
+.authorization {
+  text-align: right;
+}
+
+.link:not(:last-child) {
+  margin-right: 15px;
+}
