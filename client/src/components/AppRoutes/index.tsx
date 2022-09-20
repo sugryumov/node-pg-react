@@ -17,6 +17,6 @@ export const AppRoutes: FC = () => (
       />
     ))}
 
-    <Route path="*" element={<Navigate to="/not-found" />} />
+    <Route path="*" element={<Navigate to={PUBLIC_ROUTES.NOT_FOUND.PATH} />} />
   </Routes>
 );

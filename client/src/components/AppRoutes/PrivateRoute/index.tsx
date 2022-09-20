@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { Navigate } from "react-router-dom";
+import { PUBLIC_ROUTES } from "../../../constants/routes";
 import { useTypedSelector } from "../../../hooks/useTypedSelector";
 
 interface IPrivateRouteProps {
@@ -11,5 +12,5 @@ export const PrivateRoute: FC<IPrivateRouteProps> = ({
 }) => {
   const { isAuth } = useTypedSelector((state) => state.authReducer);
 
-  return isAuth ? RouteComponent : <Navigate to="/login" />;
+  return isAuth ? RouteComponent : <Navigate to={PUBLIC_ROUTES.SIGN_IN.PATH} />;
 };
