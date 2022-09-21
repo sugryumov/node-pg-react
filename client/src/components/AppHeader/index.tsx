@@ -4,7 +4,7 @@ import { Layout } from 'antd';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { PUBLIC_ROUTES } from '@/constants/routes';
 import { Logout } from './Logout';
-import { Navigation } from './Navigation';
+import { AppMenu } from './AppMenu';
 import { Authorization } from './Authorization';
 import styles from './index.module.css';
 
@@ -26,7 +26,7 @@ export const AppHeader: FC = () => {
 
         {isAuth ? (
           <>
-            <Navigation />
+            <AppMenu />
             <Logout />
           </>
         ) : (
