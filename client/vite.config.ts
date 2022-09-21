@@ -1,21 +1,24 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import vitePluginImp from "vite-plugin-imp";
+import { defineConfig } from 'vite';
+import vitePluginImp from 'vite-plugin-imp';
+import path from 'path';
+import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
 export default defineConfig({
+  resolve: {
+    alias: {
+      // eslint-disable-next-line no-undef
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
   plugins: [
     react(),
     vitePluginImp({
+      optimize: true,
       libList: [
         {
-          libName: "antd",
-          style: (name) => {
-            if (name === "col" || name === "row") {
-              return "antd/lib/style/index.less";
-            }
-            return `antd/es/${name}/style/index.less`;
-          },
+          libName: 'antd',
+          libDirectory: 'es',
+          style: name => `antd/es/${name}/style`,
         },
       ],
     }),

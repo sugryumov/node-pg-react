@@ -1,5 +1,5 @@
-import authReducer, { authActions } from "./authSlice";
-import usersReducer, { usersActions } from "./usersSlice";
+import authReducer, { authActions } from './authSlice';
+import usersReducer, { usersActions } from './usersSlice';
 
 export const reducers = {
   authReducer,

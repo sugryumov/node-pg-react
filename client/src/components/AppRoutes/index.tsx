@@ -1,7 +1,7 @@
-import { FC } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
-import { PrivateRoute } from "./PrivateRoute";
-import { PRIVATE_ROUTES, PUBLIC_ROUTES } from "../../constants/routes";
+import { FC } from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { PRIVATE_ROUTES, PUBLIC_ROUTES } from '@/constants/routes';
+import { PrivateRoute } from './PrivateRoute';
 
 export const AppRoutes: FC = () => (
   <Routes>

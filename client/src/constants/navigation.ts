@@ -1,4 +1,4 @@
-import { PRIVATE_ROUTES } from "./routes";
+import { PRIVATE_ROUTES } from './routes';
 
 export interface INavigation {
   PATH: string;

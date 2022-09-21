@@ -1,8 +1,8 @@
-import { FC } from "react";
-import { Link } from "react-router-dom";
-import { Button } from "antd";
-import styles from "./index.module.css";
-import type { ButtonType } from "antd/lib/button";
+import { FC } from 'react';
+import { Link } from 'react-router-dom';
+import { Button } from 'antd';
+import type { ButtonType } from 'antd/lib/button';
+import styles from './index.module.css';
 
 interface IButtonLinkProps {
   path: string;
@@ -15,13 +15,11 @@ export const ButtonLink: FC<IButtonLinkProps> = ({
   path,
   text,
   className,
-  type = "default",
-}) => {
-  return (
-    <Button type={type} className={className}>
-      <Link to={path} className={styles.link}>
-        {text}
-      </Link>
-    </Button>
-  );
-};
+  type = 'default',
+}) => (
+  <Button type={type} className={className}>
+    <Link to={path} className={styles.link}>
+      {text}
+    </Link>
+  </Button>
+);

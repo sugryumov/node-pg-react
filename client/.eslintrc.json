@@ -1,0 +1,52 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true
+    },
+    "sourceType": "module",
+    "ecmaVersion": "latest"
+  },
+  "plugins": [
+    "react",
+    "standard",
+    "@typescript-eslint"
+  ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".tsx",
+          ".ts",
+          ".js",
+          ".json"
+        ]
+      },
+      "alias": [
+        [
+          "@",
+          "./src"
+        ]
+      ]
+    }
+  },
+  "rules": {
+    "no-var": 1,
+    "camelcase": 1,
+    "no-nested-ternary": 1,
+    "no-console": 1,
+    "no-self-compare": 1,
+    "arrow-body-style": 1,
+    "react/react-in-jsx-scope": "off"
+  }
+}

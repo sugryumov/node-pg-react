@@ -1,40 +1,40 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
-import { IAuthRequest } from "../models/request/IAuthRequest";
-import { IAuthResponse } from "../models/response/IAuthResponse";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
+import { IAuthRequest } from '@/models/request/IAuthRequest';
+import { IAuthResponse } from '@/models/response/IAuthResponse';
 
 export const authApi = createApi({
-  reducerPath: "authApi",
+  reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    credentials: "include",
-    baseUrl: "http://localhost:9000/api/",
+    credentials: 'include',
+    baseUrl: 'http://localhost:9000/api/',
   }),
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     signIn: builder.mutation<IAuthResponse, IAuthRequest>({
-      query: (params) => ({
-        url: "/login",
-        method: "POST",
+      query: params => ({
+        url: '/login',
+        method: 'POST',
         body: params,
       }),
     }),
 
     signUp: builder.mutation<IAuthResponse, IAuthRequest>({
-      query: (params) => ({
-        url: "/registration",
-        method: "POST",
+      query: params => ({
+        url: '/registration',
+        method: 'POST',
         body: params,
       }),
     }),
 
     logout: builder.mutation({
       query: () => ({
-        url: "/logout",
-        method: "POST",
+        url: '/logout',
+        method: 'POST',
       }),
     }),
 
     checkAuth: builder.query<IAuthResponse, unknown>({
       query: () => ({
-        url: "/refresh",
+        url: '/refresh',
       }),
     }),
   }),

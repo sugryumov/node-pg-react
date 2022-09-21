@@ -1,18 +1,18 @@
-import { FC, useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
-import { useActions } from "../../hooks/useActions";
-import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { useSignInMutation } from "../../services/authService";
+import { FC, useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import { useActions } from '@/hooks/useActions';
+import { useTypedSelector } from '@/hooks/useTypedSelector';
+import { useSignInMutation } from '@/services/authService';
 
 export const SignIn: FC = () => {
   const { setCredentials } = useActions();
-  const { isAuth } = useTypedSelector((state) => state.authReducer);
+  const { isAuth } = useTypedSelector(state => state.authReducer);
 
   const [fetchSignIn, { data, error, isError, isSuccess }] =
     useSignInMutation();
 
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   useEffect(() => {
     if (isSuccess) {
@@ -24,7 +24,7 @@ export const SignIn: FC = () => {
     if (isError) {
       const errorMessage: any = error;
 
-      console.log("error", errorMessage?.data?.message);
+      console.log('error', errorMessage?.data?.message);
     }
   }, [isError]);
 
@@ -38,14 +38,14 @@ export const SignIn: FC = () => {
         <input
           type="text"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={e => setEmail(e.target.value)}
           placeholder="email"
         />
 
         <input
           type="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={e => setPassword(e.target.value)}
           placeholder="password"
         />
 

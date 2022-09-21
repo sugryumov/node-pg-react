@@ -1,7 +1,7 @@
-import { FC } from "react";
-import { PUBLIC_ROUTES } from "../../../constants/routes";
-import { ButtonLink } from "../../ButtonLink";
-import styles from "./index.module.css";
+import { FC } from 'react';
+import { PUBLIC_ROUTES } from '@/constants/routes';
+import { ButtonLink } from '@/components/ButtonLink';
+import styles from './index.module.css';
 
 export const Authorization: FC = () => (
   <div className={styles.authorization}>

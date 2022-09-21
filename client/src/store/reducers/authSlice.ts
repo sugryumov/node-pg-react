@@ -1,8 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { IUser } from "../../models/IUser";
+import { createSlice } from '@reduxjs/toolkit';
+import { IUser } from '@/models/IUser';
 
 const initialState: { isAuth: boolean; profile: IUser } = {
-  isAuth: Boolean(localStorage.getItem("token")),
+  isAuth: Boolean(localStorage.getItem('token')),
   profile: {
     id: null,
     email: null,
@@ -11,17 +11,17 @@ const initialState: { isAuth: boolean; profile: IUser } = {
 };
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     setCredentials: (state, { payload }) => {
-      localStorage.setItem("token", payload.accessToken);
+      localStorage.setItem('token', payload.accessToken);
       state.isAuth = true;
       state.profile = payload.user;
     },
 
-    logout: (state) => {
-      state.isAuth = Boolean(localStorage.removeItem("token"));
+    logout: state => {
+      state.isAuth = Boolean(localStorage.removeItem('token'));
       state.profile = initialState.profile;
     },
   },
