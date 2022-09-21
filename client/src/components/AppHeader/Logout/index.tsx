@@ -19,8 +19,8 @@ export const Logout: FC = () => {
   };
 
   return (
-    <Button onClick={handleLogout} className={styles.button}>
-      LOG OUT
+    <Button onClick={handleLogout} type="ghost" className={styles.button}>
+      Sign Out
     </Button>
   );
 };

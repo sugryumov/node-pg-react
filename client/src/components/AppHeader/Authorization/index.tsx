@@ -9,6 +9,7 @@ export const Authorization: FC = () => (
       path={PUBLIC_ROUTES.SIGN_IN.PATH}
       text={PUBLIC_ROUTES.SIGN_IN.NAME}
       className={styles.link}
+      type="ghost"
     />
     <ButtonLink
       path={PUBLIC_ROUTES.SIGN_UP.PATH}

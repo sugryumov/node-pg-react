@@ -2,6 +2,10 @@
   text-align: right;
 }
 
+.link {
+  color: var(--color-white);
+}
+
 .link:not(:last-child) {
   margin-right: 15px;
 }

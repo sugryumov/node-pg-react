@@ -13,12 +13,12 @@ export const PUBLIC_ROUTES: IRoutes = {
   },
   SIGN_IN: {
     PATH: '/sign-in',
-    NAME: 'SIGN IN',
+    NAME: 'Sign In',
     COMPONENT: <SignIn />,
   },
   SIGN_UP: {
     PATH: '/sign-up',
-    NAME: 'SIGN UP',
+    NAME: 'Sign Up',
     COMPONENT: <SignUp />,
   },
 
