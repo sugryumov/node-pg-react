@@ -1,8 +1,8 @@
 import { IRoutes } from '@/models/IRoute';
 import { Home } from '@/pages/Home';
-import { SignIn } from '@/pages/SignIn';
+import { SignIn } from '@/pages/Auth/SignIn';
+import { SignUp } from '@/pages/Auth/SignUp';
 import { NotFound } from '@/pages/NotFound';
-import { SignUp } from '@/pages/SignUp';
 import { Users } from '@/pages/Users';
 
 export const PUBLIC_ROUTES: IRoutes = {

@@ -1,0 +1,41 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  min-height: inherit;
+}
+
+.form {
+  width: 400px;
+  margin: 0 auto;
+  padding: 20px 40px;
+  background-color: var(--color-white);
+  box-shadow: var(--primary-shadow);
+}
+
+.title {
+  text-align: center;
+}
+
+.icon {
+  color: var(--color-placeholder);
+}
+
+.button {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.text {
+  text-align: center;
+}
+
+/* Sign In */
+.passwordItem {
+  margin: 0;
+}
+
+.forgotLink {
+  position: absolute;
+  right: 0;
+  top: 32px;
+}
