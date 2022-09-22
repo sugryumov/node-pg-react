@@ -74,7 +74,7 @@ export const SignIn: FC = () => {
               prefix={<LockOutlined className={styles.icon} />}
             />
           </Form.Item>
-          <Link className={styles.forgotLink} to={'/forgot-password'}>
+          <Link className={styles.forgotLink} to={'/reset-password'}>
             Forgot password?
           </Link>
         </Form.Item>

@@ -32,6 +32,14 @@ export const authApi = createApi({
       }),
     }),
 
+    resetPassword: builder.mutation({
+      query: ({ email }) => ({
+        url: '/reset-password',
+        method: 'POST',
+        body: { email },
+      }),
+    }),
+
     checkAuth: builder.query<IAuthResponse, unknown>({
       query: () => ({
         url: '/refresh',
@@ -44,5 +52,6 @@ export const {
   useSignInMutation,
   useSignUpMutation,
   useLogoutMutation,
+  useResetPasswordMutation,
   useCheckAuthQuery,
 } = authApi;
