@@ -40,6 +40,14 @@ export const authApi = createApi({
       }),
     }),
 
+    newPassword: builder.mutation({
+      query: ({ password, resetPasswordLink }) => ({
+        url: '/new-password',
+        method: 'POST',
+        body: { password, resetPasswordLink },
+      }),
+    }),
+
     checkAuth: builder.query<IAuthResponse, unknown>({
       query: () => ({
         url: '/refresh',
@@ -53,5 +61,6 @@ export const {
   useSignUpMutation,
   useLogoutMutation,
   useResetPasswordMutation,
+  useNewPasswordMutation,
   useCheckAuthQuery,
 } = authApi;

@@ -3,6 +3,7 @@ import { Home } from '@/pages/Home';
 import { SignIn } from '@/pages/Auth/SignIn';
 import { SignUp } from '@/pages/Auth/SignUp';
 import { ResetPassword } from '@/pages/Auth/ResetPassword';
+import { NewPassword } from '@/pages/Auth/NewPassword';
 import { NotFound } from '@/pages/NotFound';
 import { Users } from '@/pages/Users';
 
@@ -26,6 +27,11 @@ export const PUBLIC_ROUTES: IRoutes = {
     PATH: '/reset-password',
     NAME: 'Reset password',
     COMPONENT: <ResetPassword />,
+  },
+  NEW_PASSWORD: {
+    PATH: '/new-password',
+    NAME: 'New password',
+    COMPONENT: <NewPassword />,
   },
 
   NOT_FOUND: {
