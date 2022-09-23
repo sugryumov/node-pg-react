@@ -56,6 +56,45 @@ class UserController {
     }
   }
 
+  async resetPassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email } = req.body;
+      const userData = await userService.resetPassword(email);
+
+      return res.json(userData);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async resetPasswordRedirect(req: Request, res: Response, next: NextFunction) {
+    try {
+      const activationLink = req.params.link;
+      const redirectPath =
+        `${process.env.CLIENT_URL}/new-password?activationLink=${activationLink}` ||
+        "";
+
+      return res.redirect(redirectPath);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async newPassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { password, resetPasswordLink } = req.body;
+      const userData = await userService.newPassword(
+        password,
+        resetPasswordLink
+      );
+
+      console.log("userData", userData);
+      return res.json(userData);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async activate(req: Request, res: Response, next: NextFunction) {
     try {
       const activationLink = req.params.link;

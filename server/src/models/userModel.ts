@@ -17,6 +17,7 @@ interface IUserModel
   password: string;
   isActivated: CreationOptional<boolean>;
   activationLink: string;
+  resetPasswordLink: string;
 }
 
 export const UserModel = sequelize.define<IUserModel>("users", {
@@ -24,5 +25,6 @@ export const UserModel = sequelize.define<IUserModel>("users", {
   email: { type: DataTypes.STRING, unique: true },
   password: { type: DataTypes.STRING },
   activationLink: { type: DataTypes.STRING },
+  resetPasswordLink: { type: DataTypes.STRING },
   isActivated: { type: DataTypes.BOOLEAN, defaultValue: false },
 });

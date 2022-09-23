@@ -29,6 +29,21 @@ class MailService {
       `,
     });
   }
+
+  async senRestorePasswordLink(to: string, link: string) {
+    await this.transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to,
+      subject: `Для восстановления пароля на ${process.env.API_URL}`,
+      text: "",
+      html: `
+        <div>
+          <h1>Для восстановления пароля перейдите по ссылке</h1>
+          <a href="${link}">${link}</a>
+        </div>
+      `,
+    });
+  }
 }
 
 export const mailService = new MailService();

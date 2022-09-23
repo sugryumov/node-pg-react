@@ -18,11 +18,13 @@ class UserService {
 
     const hashPassword = await bcrypt.hash(password, 3);
     const activationLink = v4();
+    const resetPasswordLink = v4();
 
     const user = await UserModel.create({
       email,
       password: hashPassword,
       activationLink,
+      resetPasswordLink,
     });
 
     await mailService.sendActivationMail(
@@ -76,6 +78,39 @@ class UserService {
       ...tokens,
       user: userDto,
     };
+  }
+
+  async resetPassword(email: string) {
+    const user = await UserModel.findOne({ where: { email } });
+
+    if (!user) {
+      throw ApiError.BadRequest(
+        `Пользователь с почтовым адресом ${email} не найден`
+      );
+    }
+
+    const resetPasswordLink = user?.toJSON().resetPasswordLink;
+
+    await mailService.senRestorePasswordLink(
+      email,
+      `${process.env.API_URL}/api/reset-password/${resetPasswordLink}`
+    );
+  }
+
+  async newPassword(password: string, resetPasswordLink: string) {
+    const user = await UserModel.findOne({ where: { resetPasswordLink } });
+
+    if (!user) {
+      throw ApiError.BadRequest("Некорректная ссылка сброса пароля");
+    }
+
+    const hashPassword = await bcrypt.hash(password, 3);
+    const newResetPasswordLink = v4();
+
+    user.password = hashPassword;
+    user.resetPasswordLink = newResetPasswordLink;
+
+    await user.save();
   }
 
   async logout(refreshToken: string) {

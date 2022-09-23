@@ -13,6 +13,9 @@ userRouter.post(
 );
 userRouter.post("/login", userController.login);
 userRouter.post("/logout", userController.logout);
+userRouter.post("/reset-password", userController.resetPassword);
+userRouter.post("/new-password", userController.newPassword);
+userRouter.get("/reset-password/:link", userController.resetPasswordRedirect);
 userRouter.get("/activate/:link", userController.activate);
 userRouter.get("/refresh", userController.refresh);
 userRouter.get("/users", authMiddleware, userController.getUsers);
