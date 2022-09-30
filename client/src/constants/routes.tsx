@@ -6,11 +6,11 @@ import { ResetPassword } from '@/pages/Auth/ResetPassword';
 import { NewPassword } from '@/pages/Auth/NewPassword';
 import { NotFound } from '@/pages/NotFound';
 import { Users } from '@/pages/Users';
+import { ExerciseList } from '@/pages/ExerciseList';
 
 export const PUBLIC_ROUTES: IRoutes = {
   HOME: {
     PATH: '/',
-    NAME: 'HOME',
     COMPONENT: <Home />,
   },
   SIGN_IN: {
@@ -36,7 +36,6 @@ export const PUBLIC_ROUTES: IRoutes = {
 
   NOT_FOUND: {
     PATH: '*',
-    NAME: 'NOT_FOUND',
     COMPONENT: <NotFound />,
   },
 };
@@ -47,9 +46,26 @@ export const PRIVATE_ROUTES: IRoutes = {
     NAME: 'GRAMMAR',
     COMPONENT: <Users />,
   },
+  GRAMMAR_EXERCISE_LIST: {
+    PATH: '/grammar/:level',
+    COMPONENT: <ExerciseList />,
+  },
   LISTENING: {
     PATH: '/listening',
     NAME: 'LISTENING',
     COMPONENT: <Users />,
+  },
+  LISTENING_EXERCISE_LIST: {
+    PATH: '/listening/:level',
+    COMPONENT: <ExerciseList />,
+  },
+  READING: {
+    PATH: '/reading',
+    NAME: 'READING',
+    COMPONENT: <Users />,
+  },
+  READING_EXERCISE_LIST: {
+    PATH: '/READING/:level',
+    COMPONENT: <ExerciseList />,
   },
 };

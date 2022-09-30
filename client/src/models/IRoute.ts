@@ -2,8 +2,8 @@ import { ReactElement } from 'react';
 
 export interface IRoute {
   PATH: string;
-  NAME: string;
   COMPONENT: ReactElement;
+  NAME?: string;
 }
 
 export type IRoutes = {

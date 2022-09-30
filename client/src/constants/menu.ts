@@ -29,4 +29,17 @@ export const MENU = [
       },
     ],
   },
+  {
+    label: PRIVATE_ROUTES.READING.NAME,
+    items: [
+      {
+        label: ENGLISH_LEVEL.A1,
+        path: `${PRIVATE_ROUTES.READING.PATH}/a1`,
+      },
+      {
+        label: ENGLISH_LEVEL.A2,
+        path: `${PRIVATE_ROUTES.READING.PATH}/a2`,
+      },
+    ],
+  },
 ];
