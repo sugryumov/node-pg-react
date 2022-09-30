@@ -10,7 +10,7 @@
 - Handler error
 - Docker compose
 
-### Client side
+### Client
 
 - Project builder - Vite
 - Redux(RTK Query) for state management
