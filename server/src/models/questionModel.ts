@@ -16,8 +16,10 @@ interface IQuestionModel
   level: string;
   type: string;
   part: string;
+  rules: string;
   body: string;
-  answer: string[][];
+  answersVariant: string[][];
+  correctAnswer: string;
 }
 
 export const QuestionModel = sequelize.define<IQuestionModel>("questions", {
@@ -25,6 +27,8 @@ export const QuestionModel = sequelize.define<IQuestionModel>("questions", {
   level: { type: DataTypes.STRING },
   type: { type: DataTypes.STRING },
   part: { type: DataTypes.STRING },
+  rules: { type: DataTypes.STRING },
   body: { type: DataTypes.STRING },
-  answer: { type: DataTypes.ARRAY(DataTypes.ARRAY(DataTypes.STRING)) },
+  answersVariant: { type: DataTypes.ARRAY(DataTypes.ARRAY(DataTypes.STRING)) },
+  correctAnswer: { type: DataTypes.STRING },
 });
