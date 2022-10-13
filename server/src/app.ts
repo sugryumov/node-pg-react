@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { userRouter } from "./router/user.routes";
 import { questionRouter } from "./router/question.routes";
+import { exerciseListRouter } from "./router/exerciseList.routes";
 import { errorMiddleware } from "./middleware/errorMiddleware";
 import { sequelize } from "./config/db.config";
 
@@ -22,6 +23,7 @@ app.use(
 );
 app.use("/api", userRouter);
 app.use("/api", questionRouter);
+app.use("/api", exerciseListRouter);
 app.use(errorMiddleware);
 
 const start = async () => {
