@@ -7,26 +7,24 @@ import {
 } from "sequelize";
 import { sequelize } from "../config/db.config";
 
-interface IQuestionModel
+interface IExerciseModel
   extends Model<
-    InferAttributes<IQuestionModel>,
-    InferCreationAttributes<IQuestionModel>
+    InferAttributes<IExerciseModel>,
+    InferCreationAttributes<IExerciseModel>
   > {
   id: CreationOptional<number>;
   level: string;
   type: string;
   part: string;
-  body: string;
-  answersVariant: string[][];
-  correctAnswer: string;
+  rules: string;
+  example: string;
 }
 
-export const QuestionModel = sequelize.define<IQuestionModel>("questions", {
+export const ExerciseModel = sequelize.define<IExerciseModel>("exercises", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   level: { type: DataTypes.STRING },
   type: { type: DataTypes.STRING },
   part: { type: DataTypes.STRING },
-  body: { type: DataTypes.STRING },
-  answersVariant: { type: DataTypes.ARRAY(DataTypes.ARRAY(DataTypes.STRING)) },
-  correctAnswer: { type: DataTypes.STRING },
+  rules: { type: DataTypes.STRING },
+  example: { type: DataTypes.STRING },
 });
